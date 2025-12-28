@@ -1,32 +1,34 @@
 package dao;
 
-import model.Aluno;
+import model.Professor;
 import util.Conexao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlunoDAO {
+public class ProfessorDAO {
 
     private PessoaDAO pessoaDAO = new PessoaDAO();
 
-    public void salvar(Aluno aluno) {
 
-        int pessoaId = pessoaDAO.salvar(aluno);
-        aluno.setPessoaId(pessoaId);
+    public void salvar(Professor professor) {
 
-        // 2️⃣ salva aluno
+        // 1️⃣ salva pessoa
+        int pessoaId = pessoaDAO.salvar(professor);
+        professor.setPessoaId(pessoaId);
+
+        // 2️⃣ salva professor
         String sql = """
-            INSERT INTO aluno (matricula, pessoa_id)
+            INSERT INTO professor (codigo, pessoa_id)
             VALUES (?, ?)
         """;
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, aluno.getMatricula());
-            ps.setInt(2, aluno.getPessoaId());
+            ps.setString(1, professor.getMatricula());
+            ps.setInt(2, professor.getPessoaId());
 
             ps.executeUpdate();
 
@@ -35,19 +37,21 @@ public class AlunoDAO {
         }
     }
 
-    public List<Aluno> listar() {
-        List<Aluno> alunos = new ArrayList<>();
+
+    public List<Professor> listar() {
+
+        List<Professor> professores = new ArrayList<>();
 
         String sql = """
-            SELECT 
-                a.id AS aluno_id,
+            SELECT
+                pr.id AS professor_id,
                 p.id AS pessoa_id,
                 p.nome,
                 p.data_nascimento,
                 p.cpf,
-                a.matricula
-            FROM aluno a
-            JOIN pessoa p ON p.id = a.pessoa_id
+                pr.codigo
+            FROM professor pr
+            JOIN pessoa p ON p.id = pr.pessoa_id
         """;
 
         try (Connection conn = Conexao.getConnection();
@@ -55,54 +59,54 @@ public class AlunoDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Aluno aluno = new Aluno(
-                        rs.getInt("aluno_id"),
+                Professor professor = new Professor(
+                        rs.getInt("professor_id"),
                         rs.getString("nome"),
                         rs.getDate("data_nascimento"),
                         rs.getString("cpf"),
                         rs.getInt("pessoa_id"),
-                        rs.getString("matricula")
+                        rs.getString("codigo")
                 );
 
-                alunos.add(aluno);
+                professores.add(professor);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return alunos;
+        return professores;
     }
 
-    public Aluno buscarPorId(int alunoId) {
+    public Professor buscarPorId(int professorId) {
 
         String sql = """
-            SELECT 
-                a.id AS aluno_id,
+            SELECT
+                pr.id AS professor_id,
                 p.id AS pessoa_id,
                 p.nome,
                 p.data_nascimento,
                 p.cpf,
-                a.matricula
-            FROM aluno a
-            JOIN pessoa p ON p.id = a.pessoa_id
-            WHERE a.id = ?
+                pr.codigo
+            FROM professor pr
+            JOIN pessoa p ON p.id = pr.pessoa_id
+            WHERE pr.id = ?
         """;
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, alunoId);
+            ps.setInt(1, professorId);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return new Aluno(
-                        rs.getInt("aluno_id"),
+                return new Professor(
+                        rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getDate("data_nascimento"),
                         rs.getString("cpf"),
                         rs.getInt("pessoa_id"),
-                        rs.getString("matricula")
+                        rs.getString("codigo")
                 );
             }
 
@@ -113,18 +117,15 @@ public class AlunoDAO {
         return null;
     }
 
-    public void atualizar(Aluno aluno) {
-
-        PessoaDAO pessoaDAO = new PessoaDAO();
-        pessoaDAO.atualizar(aluno);
-
-        String sql = "UPDATE aluno SET matricula = ? WHERE id = ?";
+    public void atualizar(Professor professor) {
+        pessoaDAO.atualizar(professor);
+        String sql = "UPDATE professor SET codigo = ? WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, aluno.getMatricula());
-            ps.setInt(2, aluno.getId());
+            ps.setString(1, professor.getMatricula());
+            ps.setInt(2, professor.getId());
 
             ps.executeUpdate();
 
@@ -133,14 +134,14 @@ public class AlunoDAO {
         }
     }
 
-    public void deletar(int alunoId) {
+    public void deletar(int professorId) {
 
-        String sql = "DELETE FROM aluno WHERE id = ?";
+        String sqlProfessor = "DELETE FROM professor WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sqlProfessor)) {
 
-            ps.setInt(1, alunoId);
+            ps.setInt(1, professorId);
             ps.executeUpdate();
 
         } catch (SQLException e) {

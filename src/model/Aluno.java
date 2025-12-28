@@ -8,17 +8,18 @@ public class Aluno extends Pessoa {
     private int id;
     private String matricula;
 
-    Aluno(){}
-
-    Aluno(int id, String nome, Date dataNascimento, String cpf, int pessoaId, String matricula){
+    public Aluno(int id, String nome, java.sql.Date dataNascimento, String cpf, int pessoaId, String matricula){
         super(id=pessoaId, nome, dataNascimento, cpf);
         this.matricula = matricula;
     }
 
-    Aluno(String nome, Date dataNascimento, String cpf, int pessoaId){
+    public Aluno(){}
+
+    public Aluno(String nome, Date dataNascimento, String cpf, int pessoaId){
         super(id=pessoaId, nome, dataNascimento, cpf);
         this.matricula = gerarMatricula(cpf, nome);
     }
+
 
     String gerarMatricula(String cpf, String nome) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");

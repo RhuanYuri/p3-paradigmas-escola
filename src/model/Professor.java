@@ -8,14 +8,14 @@ public class Professor extends Pessoa {
     private int id;
     private String codigo;
 
-    Professor(){}
+    public Professor(){}
 
-    Professor(int id, String nome, Date dataNascimento, String cpf, int pessoaId, String codigo){
+    public Professor(int id, String nome, Date dataNascimento, String cpf, int pessoaId, String codigo){
         super(id=pessoaId, nome, dataNascimento, cpf);
         this.codigo = codigo;
     }
 
-    Professor(String nome, Date dataNascimento, String cpf, int pessoaId){
+    public Professor(String nome, Date dataNascimento, String cpf, int pessoaId){
         super(id=pessoaId, nome, dataNascimento, cpf);
         this.codigo = gerarMatricula(cpf, nome);
     }
