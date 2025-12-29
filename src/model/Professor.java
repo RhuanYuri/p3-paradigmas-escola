@@ -10,13 +10,14 @@ public class Professor extends Pessoa {
 
     public Professor(){}
 
-    public Professor(int id, String nome, Date dataNascimento, String cpf, int pessoaId, String codigo){
-        super(id=pessoaId, nome, dataNascimento, cpf);
+    public Professor(int id, String nome, java.sql.Date dataNascimento, String cpf, int pessoaId, String codigo){
+        super(pessoaId, nome, dataNascimento, cpf);
+        this.id = id;
         this.codigo = codigo;
     }
 
-    public Professor(String nome, Date dataNascimento, String cpf, int pessoaId){
-        super(id=pessoaId, nome, dataNascimento, cpf);
+    public Professor(String nome, Date dataNascimento, String cpf){
+        super(nome, dataNascimento, cpf);
         this.codigo = gerarMatricula(cpf, nome);
     }
 

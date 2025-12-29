@@ -62,7 +62,7 @@ public class ProfessorDAO {
                 Professor professor = new Professor(
                         rs.getInt("professor_id"),
                         rs.getString("nome"),
-                        rs.getDate("data_nascimento"),
+                        java.sql.Date.valueOf(rs.getString("data_nascimento")),
                         rs.getString("cpf"),
                         rs.getInt("pessoa_id"),
                         rs.getString("codigo")
@@ -103,7 +103,7 @@ public class ProfessorDAO {
                 return new Professor(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getDate("data_nascimento"),
+                        java.sql.Date.valueOf(rs.getString("data_nascimento")),
                         rs.getString("cpf"),
                         rs.getInt("pessoa_id"),
                         rs.getString("codigo")

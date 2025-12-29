@@ -10,12 +10,13 @@ public class Aluno extends Pessoa {
 
     public Aluno(int id, String nome, java.sql.Date dataNascimento, String cpf, int pessoaId, String matricula){
         super(id=pessoaId, nome, dataNascimento, cpf);
+        this.id = id;
         this.matricula = matricula;
     }
 
     public Aluno(){}
 
-    public Aluno(String nome, Date dataNascimento, String cpf, int pessoaId){
+    public Aluno(String nome, java.sql.Date dataNascimento, String cpf, int pessoaId){
         super(id=pessoaId, nome, dataNascimento, cpf);
         this.matricula = gerarMatricula(cpf, nome);
     }

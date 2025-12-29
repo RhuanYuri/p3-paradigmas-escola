@@ -58,7 +58,7 @@ public class AlunoDAO {
                 Aluno aluno = new Aluno(
                         rs.getInt("aluno_id"),
                         rs.getString("nome"),
-                        rs.getDate("data_nascimento"),
+                        java.sql.Date.valueOf(rs.getString("data_nascimento")),
                         rs.getString("cpf"),
                         rs.getInt("pessoa_id"),
                         rs.getString("matricula")
@@ -99,7 +99,7 @@ public class AlunoDAO {
                 return new Aluno(
                         rs.getInt("aluno_id"),
                         rs.getString("nome"),
-                        rs.getDate("data_nascimento"),
+                        java.sql.Date.valueOf(rs.getString("data_nascimento")),
                         rs.getString("cpf"),
                         rs.getInt("pessoa_id"),
                         rs.getString("matricula")

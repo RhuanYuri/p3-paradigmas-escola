@@ -10,7 +10,7 @@ public class Pessoa {
 
     Pessoa(){}
 
-    Pessoa(int id, String nome, Date dataNascimento, String cpf){
+    Pessoa(int id, String nome, java.sql.Date dataNascimento, String cpf){
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
