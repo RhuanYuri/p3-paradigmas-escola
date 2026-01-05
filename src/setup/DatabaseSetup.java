@@ -12,10 +12,8 @@ public class DatabaseSetup {
         try (Connection conn = Conexao.getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // 1. ATIVAR CHAVES ESTRANGEIRAS NO SQLITE
             stmt.execute("PRAGMA foreign_keys = ON;");
 
-            // 2. CRIAR TABELAS (SERIAL -> INTEGER PRIMARY KEY AUTOINCREMENT)
             stmt.execute("""
                 CREATE TABLE IF NOT EXISTS pessoa (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -75,7 +73,7 @@ public class DatabaseSetup {
                 )
             """);
 
-            // 3. INSERIR DADOS (Usando INSERT OR IGNORE para evitar erros de duplicidade)
+
             stmt.execute("""
                 INSERT OR IGNORE INTO pessoa (id, nome, data_nascimento, cpf) VALUES
                 (1, 'João Silva', '2002-05-10', '111.111.111-11'),

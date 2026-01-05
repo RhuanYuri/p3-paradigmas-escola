@@ -1,15 +1,20 @@
 package view;
 
+import dao.AlunoDAO;
+import model.Aluno;
+
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.text.ParseException;
+import java.text.ParseException;import java.text.SimpleDateFormat;import java.util.Date;
 
 public class TelaAluno extends JFrame {
 
     private JTextField txtNome;
     private JFormattedTextField txtCpf;
     private JFormattedTextField txtDataNascimento;
+
+    private AlunoDAO alunoDAO = new AlunoDAO();
 
     public TelaAluno() {
         setTitle("Cadastro de Aluno");
@@ -45,7 +50,6 @@ public class TelaAluno extends JFrame {
         // Nome
         painel.add(new JLabel("Nome:"));
         txtNome = new JTextField();
-        txtNome.setToolTipText("Digite o nome completo do aluno");
         painel.add(txtNome);
 
         // CPF
@@ -55,7 +59,6 @@ public class TelaAluno extends JFrame {
         } catch (ParseException e) {
             txtCpf = new JFormattedTextField();
         }
-        txtCpf.setToolTipText("Formato: 000.000.000-00");
         painel.add(txtCpf);
 
         // Data de nascimento
@@ -65,21 +68,59 @@ public class TelaAluno extends JFrame {
         } catch (ParseException e) {
             txtDataNascimento = new JFormattedTextField();
         }
-        txtDataNascimento.setToolTipText("Formato: dd/MM/aaaa");
         painel.add(txtDataNascimento);
 
         // Botão salvar
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBackground(new Color(100, 149, 237));
-        btnSalvar.setForeground(Color.BLACK);
         btnSalvar.setFocusPainted(false);
 
-        painel.add(new JLabel()); // espaço vazio
+        btnSalvar.addActionListener(e -> salvarAluno());
+
+        painel.add(new JLabel());
         painel.add(btnSalvar);
 
         add(painel, BorderLayout.CENTER);
-
         setVisible(true);
+    }
+
+    private void salvarAluno() {
+        String nome = txtNome.getText().trim();
+        String cpf = txtCpf.getText().trim();
+        try {
+            String dataStr = txtDataNascimento.getText().trim();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
+
+            Date dataNascimento = sdf.parse(dataStr);
+
+            if (nome.isEmpty() || cpf.contains(" ")) {
+                JOptionPane.showMessageDialog(this,
+                        "Preencha todos os campos corretamente!",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Aluno aluno = new Aluno(nome, dataNascimento, cpf);
+            alunoDAO.salvar(aluno);
+
+        }catch (ParseException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Data inválida! Use o formato dd/MM/aaaa",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso!");
+        limparCampos();
+    }
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtCpf.setValue(null);
+        txtDataNascimento.setValue(null);
     }
 
     // Botão voltar
@@ -89,11 +130,10 @@ public class TelaAluno extends JFrame {
         btn.setBorderPainted(false);
         btn.setContentAreaFilled(false);
         btn.setFocusPainted(false);
-        btn.setToolTipText("Voltar ao menu principal");
 
         btn.addActionListener(e -> {
-            dispose(); // fecha a tela atual
-            new MenuPrincipal(); // abre a tela principal
+            dispose();
+            new MenuPrincipal();
         });
 
         return btn;

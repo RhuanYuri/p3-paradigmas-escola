@@ -21,6 +21,11 @@ public class Aluno extends Pessoa {
         this.matricula = gerarMatricula(cpf, nome);
     }
 
+    public Aluno(String nome, Date dataNascimento, String cpf){
+        super(nome,     dataNascimento, cpf);
+        this.matricula = gerarMatricula(cpf, nome);
+    }
+
 
     String gerarMatricula(String cpf, String nome) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
