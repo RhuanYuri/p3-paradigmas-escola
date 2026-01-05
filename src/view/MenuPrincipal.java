@@ -7,51 +7,44 @@ public class MenuPrincipal extends JFrame {
 
     public MenuPrincipal() {
         setTitle("Menu Principal");
-        setSize(400, 350);
+        setSize(400, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(5, 1, 10, 10));
+        setLayout(new BorderLayout());
 
-        // Cabeçalho
+        // ---------- CABEÇALHO ----------
         JLabel lblTitulo = new JLabel("Menu Principal", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblTitulo.setOpaque(true);
         lblTitulo.setBackground(new Color(173, 216, 230));
-        lblTitulo.setPreferredSize(new Dimension(400, 50));
-        add(lblTitulo);
+        lblTitulo.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
 
-        // Botões
+        add(lblTitulo, BorderLayout.NORTH);
+
+        // ---------- BOTÕES ----------
+        JPanel painelBotoes = new JPanel(new GridLayout(3, 1, 10, 10));
+        painelBotoes.setBorder(BorderFactory.createEmptyBorder(30, 60, 30, 60));
+        painelBotoes.setBackground(Color.WHITE);
+
         JButton btnAluno = new JButton("Cadastrar Aluno");
-        btnAluno.addActionListener(e -> {
-            TelaAluno telaAluno = new TelaAluno();
-            telaAluno.setVisible(true);
-        });
-
         JButton btnTurma = new JButton("Cadastrar Turma");
-        btnTurma.addActionListener(e -> {
-            TelaTurma telaTurma = new TelaTurma();
-            telaTurma.setVisible(true);
-        });
-
         JButton btnProfessor = new JButton("Selecionar Professor");
-        btnProfessor.addActionListener(e -> {
-            TelaProfessor telaProfessor = new TelaProfessor();
-            telaProfessor.setVisible(true);
-        });
 
+        btnAluno.addActionListener(e -> new TelaAluno());
+        btnTurma.addActionListener(e -> new TelaTurma());
+        btnProfessor.addActionListener(e -> new TelaProfessor());
+
+        painelBotoes.add(btnAluno);
+        painelBotoes.add(btnTurma);
+        painelBotoes.add(btnProfessor);
+
+        add(painelBotoes, BorderLayout.CENTER);
+
+        // ---------- RODAPÉ ----------
         JButton btnSair = new JButton("Sair");
         btnSair.addActionListener(e -> System.exit(0));
-
-        // Adicionando botões ao frame
-        add(btnAluno);
-        add(btnTurma);
-        add(btnProfessor);
-        add(btnSair);
+        add(btnSair, BorderLayout.SOUTH);
 
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MenuPrincipal());
     }
 }
