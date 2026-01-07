@@ -124,14 +124,13 @@ O sistema utiliza o **SQLite** como sistema gerenciador de banco de dados, armaz
 
 ---
 
-## 7 Observação Importante sobre o Banco de Dados
+## 7 Observação Importante sobre a Inicialização do Banco de Dados
 
-Caso o banco de dados **não funcione corretamente**, **não seja criado automaticamente** ou apresente algum erro de inicialização, existe um arquivo específico localizado no pacote setup:
+A presente observação mostra-se pertinente em razão dos **testes realizados a partir dos arquivos compactados (.zip) do projeto**, nos quais foram identificadas falhas relacionadas à inicialização e ao acesso ao banco de dados SQLite. Durante esses testes, o banco de dados apresentou erros associados à criação, conexão ou localização do arquivo `database.db`, o que resultou na interrupção da execução da aplicação e na geração de exceções em tempo de execução.
 
+Diante desse cenário, o projeto disponibiliza um arquivo específico para a configuração manual da camada de persistência. O arquivo referido nesta seção corresponde à classe Java **`DatabaseSetup.java`**, localizada no pacote **`setup`**. Essa classe é responsável por realizar a **inicialização do banco de dados SQLite**, executando instruções SQL que criam o arquivo do banco e definem todas as tabelas necessárias ao funcionamento do sistema, conforme o modelo de dados adotado.
 
-Esse arquivo é responsável por **gerar e inicializar o banco de dados manualmente**, criando as tabelas necessárias para o funcionamento do sistema. Recomenda-se executar esse arquivo caso ocorram problemas na criação automática do banco.
-
----
+A execução da classe `DatabaseSetup.java` garante a criação adequada das estruturas de persistência, incluindo entidades, chaves primárias e relacionamentos, mitigando os erros observados durante os testes com os arquivos compactados. Recomenda-se, portanto, sua utilização sempre que ocorrer falha na criação automática do banco, exclusão acidental do arquivo `database.db` ou problemas na primeira inicialização da aplicação.
 
 ## 8 Considerações Finais
 
