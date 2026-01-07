@@ -30,5 +30,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="escola1" level="project" />
   </component>
 </module>

@@ -9,15 +9,14 @@ import java.util.List;
 
 public class NotaDAO {
 
-    // CREATE
     public void salvar(Nota nota) {
         String sql = """
-            INSERT INTO nota (aluno_id, turma_id, nota1, nota2, nota3, nota4)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """;
+                    INSERT INTO nota (aluno_id, turma_id, nota1, nota2, nota3, nota4)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """;
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, nota.getAlunoId());
             ps.setInt(2, nota.getTurmaId());
@@ -36,14 +35,14 @@ public class NotaDAO {
     // READ ONE (por aluno e turma)
     public Nota buscarPorAlunoETurma(int alunoId, int turmaId) {
         String sql = """
-            SELECT * FROM nota
-            WHERE aluno_id = ? AND turma_id = ?
-        """;
+                    SELECT * FROM nota
+                    WHERE aluno_id = ? AND turma_id = ?
+                """;
 
         Nota nota = null;
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, alunoId);
             ps.setInt(2, turmaId);
@@ -58,8 +57,7 @@ public class NotaDAO {
                         rs.getDouble("nota1"),
                         rs.getDouble("nota2"),
                         rs.getDouble("nota3"),
-                        rs.getDouble("nota4")
-                );
+                        rs.getDouble("nota4"));
             }
 
         } catch (SQLException e) {
@@ -76,7 +74,7 @@ public class NotaDAO {
         String sql = "SELECT * FROM nota WHERE turma_id = ?";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, turmaId);
             ResultSet rs = ps.executeQuery();
@@ -89,8 +87,7 @@ public class NotaDAO {
                         rs.getDouble("nota1"),
                         rs.getDouble("nota2"),
                         rs.getDouble("nota3"),
-                        rs.getDouble("nota4")
-                );
+                        rs.getDouble("nota4"));
                 notas.add(nota);
             }
 
@@ -104,13 +101,13 @@ public class NotaDAO {
     // UPDATE
     public void atualizar(Nota nota) {
         String sql = """
-            UPDATE nota
-            SET nota1 = ?, nota2 = ?, nota3 = ?, nota4 = ?
-            WHERE aluno_id = ? AND turma_id = ?
-        """;
+                    UPDATE nota
+                    SET nota1 = ?, nota2 = ?, nota3 = ?, nota4 = ?
+                    WHERE aluno_id = ? AND turma_id = ?
+                """;
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setDouble(1, nota.getNota1());
             ps.setDouble(2, nota.getNota2());
@@ -131,7 +128,7 @@ public class NotaDAO {
         String sql = "DELETE FROM nota WHERE aluno_id = ? AND turma_id = ?";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, alunoId);
             ps.setInt(2, turmaId);

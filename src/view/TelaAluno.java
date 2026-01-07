@@ -6,9 +6,11 @@ import model.Aluno;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.text.ParseException;import java.text.SimpleDateFormat;import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class TelaAluno extends JFrame {
+public class TelaAluno extends JPanel {
 
     private JTextField txtNome;
     private JFormattedTextField txtCpf;
@@ -17,10 +19,6 @@ public class TelaAluno extends JFrame {
     private AlunoDAO alunoDAO = new AlunoDAO();
 
     public TelaAluno() {
-        setTitle("Cadastro de Aluno");
-        setSize(500, 350);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Cabeçalho
@@ -81,7 +79,6 @@ public class TelaAluno extends JFrame {
         painel.add(btnSalvar);
 
         add(painel, BorderLayout.CENTER);
-        setVisible(true);
     }
 
     private void salvarAluno() {
@@ -106,7 +103,7 @@ public class TelaAluno extends JFrame {
             Aluno aluno = new Aluno(nome, dataNascimento, cpf);
             alunoDAO.salvar(aluno);
 
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             JOptionPane.showMessageDialog(this,
                     "Data inválida! Use o formato dd/MM/aaaa",
                     "Erro",
@@ -132,8 +129,7 @@ public class TelaAluno extends JFrame {
         btn.setFocusPainted(false);
 
         btn.addActionListener(e -> {
-            dispose();
-            new MenuPrincipal();
+            MenuPrincipal.getInstance().mostrarMenu();
         });
 
         return btn;

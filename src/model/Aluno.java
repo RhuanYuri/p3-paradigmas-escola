@@ -8,24 +8,24 @@ public class Aluno extends Pessoa {
     private int id;
     private String matricula;
 
-    public Aluno(int id, String nome, java.sql.Date dataNascimento, String cpf, int pessoaId, String matricula){
-        super(id=pessoaId, nome, dataNascimento, cpf);
+    public Aluno(int id, String nome, java.sql.Date dataNascimento, String cpf, int pessoaId, String matricula) {
+        super(pessoaId, nome, dataNascimento, cpf);
         this.id = id;
         this.matricula = matricula;
     }
 
-    public Aluno(){}
+    public Aluno() {
+    }
 
-    public Aluno(String nome, java.sql.Date dataNascimento, String cpf, int pessoaId){
-        super(id=pessoaId, nome, dataNascimento, cpf);
+    public Aluno(String nome, java.sql.Date dataNascimento, String cpf, int pessoaId) {
+        super(id = pessoaId, nome, dataNascimento, cpf);
         this.matricula = gerarMatricula(cpf, nome);
     }
 
-    public Aluno(String nome, Date dataNascimento, String cpf){
-        super(nome,     dataNascimento, cpf);
+    public Aluno(String nome, Date dataNascimento, String cpf) {
+        super(nome, dataNascimento, cpf);
         this.matricula = gerarMatricula(cpf, nome);
     }
-
 
     String gerarMatricula(String cpf, String nome) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -35,7 +35,7 @@ public class Aluno extends Pessoa {
     }
 
     @Override
-    void imprimirDados(){
+    void imprimirDados() {
         System.out.println("Nome: " + getNome());
         System.out.println("Data de nascimento: " + getDataNascimento());
         System.out.println("CPF: " + getCpf());
@@ -60,11 +60,11 @@ public class Aluno extends Pessoa {
         this.matricula = matricula;
     }
 
-    public int getPessoaId(){
+    public int getPessoaId() {
         return super.getId();
     }
 
-    public void setPessoaId(int pessoaId){
+    public void setPessoaId(int pessoaId) {
         super.setId(pessoaId);
     }
 }
