@@ -126,7 +126,7 @@ O sistema utiliza o **SQLite** como sistema gerenciador de banco de dados, armaz
 
 ## 7 Observação Importante sobre o Banco de Dados
 
-Caso o banco de dados **não funcione corretamente**, **não seja criado automaticamente** ou apresente algum erro de inicialização, existe um arquivo específico localizado no pacote:
+Caso o banco de dados **não funcione corretamente**, **não seja criado automaticamente** ou apresente algum erro de inicialização, existe um arquivo específico localizado no pacote setup:
 
 
 Esse arquivo é responsável por **gerar e inicializar o banco de dados manualmente**, criando as tabelas necessárias para o funcionamento do sistema. Recomenda-se executar esse arquivo caso ocorram problemas na criação automática do banco.
