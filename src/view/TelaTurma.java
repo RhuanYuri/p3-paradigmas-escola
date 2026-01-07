@@ -6,7 +6,7 @@ import model.Turma;
 import javax.swing.*;
 import java.awt.*;
 
-public class TelaTurma extends JFrame {
+public class TelaTurma extends JPanel {
 
     private JTextField txtNomeTurma;
     private JTextField txtCodigoTurma;
@@ -14,16 +14,12 @@ public class TelaTurma extends JFrame {
     private TurmaDAO turmaDAO = new TurmaDAO();
 
     public TelaTurma() {
-        setTitle("Cadastro de Turma");
-        setSize(400, 250);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // ---------- CABEÇALHO ----------
         JPanel painelTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         painelTitulo.setBackground(new Color(173, 216, 230));
-        painelTitulo.setPreferredSize(new Dimension(400, 50));
+        painelTitulo.setPreferredSize(new Dimension(500, 50));
 
         JButton btnVoltar = new JButton("←");
         btnVoltar.setFont(new Font("Arial", Font.BOLD, 16));
@@ -31,7 +27,7 @@ public class TelaTurma extends JFrame {
         btnVoltar.setContentAreaFilled(false);
         btnVoltar.setFocusPainted(false);
         btnVoltar.setToolTipText("Voltar");
-        btnVoltar.addActionListener(e -> dispose());
+        btnVoltar.addActionListener(e -> MenuPrincipal.getInstance().mostrarMenu());
 
         JLabel lblTitulo = new JLabel("Cadastro de Turma");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
@@ -64,8 +60,6 @@ public class TelaTurma extends JFrame {
         painelFormulario.add(btnSalvar);
 
         add(painelFormulario, BorderLayout.CENTER);
-
-        setVisible(true);
     }
 
     // ---------- SALVAR ----------
@@ -78,8 +72,7 @@ public class TelaTurma extends JFrame {
                     this,
                     "Preencha o nome da turma!",
                     "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -94,18 +87,14 @@ public class TelaTurma extends JFrame {
                     this,
                     "Turma cadastrada com sucesso!",
                     "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            dispose();
+                    JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     this,
                     "Erro ao salvar turma:\n" + e.getMessage(),
                     "Erro",
-                    JOptionPane.ERROR_MESSAGE
-            );
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

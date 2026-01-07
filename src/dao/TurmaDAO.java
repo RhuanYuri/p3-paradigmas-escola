@@ -17,8 +17,7 @@ public class TurmaDAO {
         String sqlTurma = "INSERT INTO turma (nome) VALUES (?)";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement psTurma =
-                     conn.prepareStatement(sqlTurma, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement psTurma = conn.prepareStatement(sqlTurma, Statement.RETURN_GENERATED_KEYS)) {
 
             psTurma.setString(1, turma.getNome());
             psTurma.executeUpdate();
@@ -44,8 +43,8 @@ public class TurmaDAO {
         String sql = "SELECT * FROM turma";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Turma turma = new Turma();
@@ -68,7 +67,7 @@ public class TurmaDAO {
         String sql = "SELECT * FROM turma WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, turmaId);
             ResultSet rs = ps.executeQuery();
@@ -93,7 +92,7 @@ public class TurmaDAO {
         String sql = "UPDATE turma SET nome = ? WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, turma.getNome());
             ps.setInt(2, turma.getId());
@@ -113,8 +112,8 @@ public class TurmaDAO {
         String sqlTurma = "DELETE FROM turma WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement psRel = conn.prepareStatement(sqlRelacionamento);
-             PreparedStatement psTurma = conn.prepareStatement(sqlTurma)) {
+                PreparedStatement psRel = conn.prepareStatement(sqlRelacionamento);
+                PreparedStatement psTurma = conn.prepareStatement(sqlTurma)) {
 
             psRel.setInt(1, turmaId);
             psRel.executeUpdate();
@@ -127,6 +126,20 @@ public class TurmaDAO {
         }
     }
 
+    public void adicionarAluno(int turmaId, int alunoId) {
+        String sql = "INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (?, ?)";
+
+        try (Connection conn = Conexao.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, turmaId);
+            ps.setInt(2, alunoId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao adicionar aluno na turma: " + e.getMessage(), e);
+        }
+    }
 
     private void salvarAlunosDaTurma(Connection conn, Turma turma) throws SQLException {
 
@@ -157,14 +170,14 @@ public class TurmaDAO {
         List<Aluno> alunos = new ArrayList<>();
 
         String sql = """
-            SELECT a.id
-            FROM aluno a
-            JOIN turma_aluno ta ON ta.aluno_id = a.id
-            WHERE ta.turma_id = ?
-        """;
+                    SELECT a.id
+                    FROM aluno a
+                    JOIN turma_aluno ta ON ta.aluno_id = a.id
+                    WHERE ta.turma_id = ?
+                """;
 
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, turmaId);
             ResultSet rs = ps.executeQuery();
